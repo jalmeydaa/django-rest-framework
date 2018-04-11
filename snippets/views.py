@@ -1,12 +1,16 @@
 from snippets.models import Snippet
-from snippets.serializers import SnippetSerializer, SnippetModelSerializer
+from snippets.serializers import SnippetSerializer, SnippetModelSerializer,\
+SnippetDetailSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from snippets.filters import SnippetBackendFilter
+from snippets.core import CustomPaginator
+from rest_framework.generics import ListAPIView
 
 
 class SnippetList(APIView):
@@ -55,15 +59,18 @@ class SnippetDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class SnippetViewSet(viewsets.ModelViewSet):
+class SnippetViewSet(ModelViewSet):
     queryset = Snippet.objects.all()
     serializer_class = SnippetModelSerializer
     filter_backends = (SnippetBackendFilter, SearchFilter, OrderingFilter)
-    search_fields = ('title',)
+    search_fields = ('title', 'language')
     ordering_fields = ('title', 'language')
+    # pagination_class = CustomPaginator
 
     def perform_create(self, serializer):
         print('perform_create')
-        print(serializer.data)
+        # print(serializer.data) # This, hasn't the ID
         objeto = serializer.save()
-        print(objeto.id)
+        print(serializer.data)
+
+        print(objeto.id) # This, has the ID

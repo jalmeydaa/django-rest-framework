@@ -21,3 +21,11 @@ class Snippet(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.id, self.title)
+
+
+class SnippetDetail(models.Model):
+    snipet = models.ForeignKey(Snippet, related_name='details')
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name

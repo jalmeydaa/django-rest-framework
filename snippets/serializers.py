@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
+from snippets.models import Snippet, SnippetDetail,\
+LANGUAGE_CHOICES, STYLE_CHOICES
 
 
 class SnippetSerializer(serializers.Serializer):
@@ -29,8 +30,25 @@ class SnippetSerializer(serializers.Serializer):
         return instance
 
 
+class SnippetDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SnippetDetail
+        fields = '__all__'
+
+
 class SnippetModelSerializer(serializers.ModelSerializer):
+    details = SnippetDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = Snippet
         fields = '__all__'
+
+# {
+#     "title": "testing",
+#     "code": "001",
+#     "linenos": false,
+#     "language": "abap",
+#     "style": "abap",
+# "details" : [{"name":"primer detalle"}, {"name":"segundo detalle"}]
+# }
