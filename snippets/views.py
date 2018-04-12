@@ -68,44 +68,7 @@ class SnippetViewSet(ModelViewSet):
     ordering_fields = ('title', 'language')
     # pagination_class = CustomPaginator
 
-    # @transaction.atomic
-    # def create(self, request):
-    #     print('> create')
-    #
-    #     serializer = SnippetModelSerializer(data=request.data)
-    #
-    #     details = request.data.get('details')
-    #     print(details)
-    #
-    #     if serializer.is_valid():
-    #         print('> snippet is_valid')
-    #         snippet = serializer.save()
-    #         for d in details:
-    #             d['snippet'] = snippet.id
-    #
-    #         print(details)
-    #         serializer_details = SnippetDetailSerializer(data=details, many=True)
-    #
-    #         if serializer_details.is_valid():
-    #             print('> snippet details is_valid')
-    #             serializer_details.save()
-    #             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #         else:
-    #             print('> snippet details is_not_valid')
-    #             return Response(
-    #                 serializer_details.errors,
-    #                 status=status.HTTP_400_BAD_REQUEST
-    #             )
-    #     else:
-    #         print('> snippet is_not_valid')
-    #         print(serializer.data)
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # def perform_create(self, serializer):
-    #     print('> perform_create')
-    #     # print(serializer.data) # This, hasn't the ID
-    #     objeto = serializer.save()
-    #     print('>'*20)
-    #     print(serializer.data)
-    #
-    #     print(objeto.id) # This, has the ID
+    # def retrieve(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance)
+    #     return Response(serializer.data)

@@ -25,7 +25,7 @@ SECRET_KEY = 'alox=hgcdt^lf2pwauf_9siomsscp-4pteal+qetydt)j++(65'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
