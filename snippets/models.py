@@ -24,8 +24,9 @@ class Snippet(models.Model):
 
 
 class SnippetDetail(models.Model):
-    snipet = models.ForeignKey(Snippet, related_name='details')
+    snippet = models.ForeignKey(Snippet, related_name='details', blank=True)
     name = models.CharField(max_length=255)
+    code = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name

@@ -31,6 +31,7 @@ class SnippetSerializer(serializers.Serializer):
 
 
 class SnippetDetailSerializer(serializers.ModelSerializer):
+    code = serializers.CharField(required=True)
 
     class Meta:
         model = SnippetDetail
@@ -38,17 +39,28 @@ class SnippetDetailSerializer(serializers.ModelSerializer):
 
 
 class SnippetModelSerializer(serializers.ModelSerializer):
-    details = SnippetDetailSerializer(many=True, read_only=True)
+    details = SnippetDetailSerializer(many=True, read_only=False)
 
     class Meta:
         model = Snippet
         fields = '__all__'
 
-# {
-#     "title": "testing",
-#     "code": "001",
-#     "linenos": false,
-#     "language": "abap",
-#     "style": "abap",
-# "details" : [{"name":"primer detalle"}, {"name":"segundo detalle"}]
-# }
+    def create(self, validated_data):
+        snippet_data = {
+            'title': validated_data.get('title'),
+            'code': validated_data.get('code'),
+            'linenos': validated_data.get('linenos'),
+            'language': validated_data.get('language'),
+            'style': validated_data.get('style')
+        }
+        snippet = Snippet.objects.create(**snippet_data)
+
+        details = validated_data.get('details')
+        for d in details:
+            d['snippet'] = snippet.id
+
+        serializer_details = SnippetDetailSerializer(data=details, many=True)
+        if serializer_details.is_valid():
+            serializer_details.save()
+
+        return snippet
