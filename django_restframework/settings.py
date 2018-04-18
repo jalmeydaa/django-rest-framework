@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'snippets.apps.SnippetsConfig',
+    'erp.apps.ErpConfig',
 ]
 
 MIDDLEWARE = [
