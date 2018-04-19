@@ -7,7 +7,7 @@ def test():
 
     imp = Import('http://www.w3.org/2001/XMLSchema',location='http://www.w3.org/2001/XMLSchema.xsd')
     imp.filter.add('http://tempuri.org/')
-    client = Client(URL_DEV, doctor=ImportDoctor(imp))
+    client = Client(URL_DEV, doctor=ImportDoctor(imp), timeout=1000)
     print('call getOrigen...')
-    result = client.service
+    result = client
     print(result)
